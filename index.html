@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>Pokedex</title>
+	<style>
+		* {
+			padding: 0px;
+			margin: 0px;
+			box-sizing: border-box;
+		}
+		:root {
+			--cor1: #E3350D;
+			--cor2: #30a7d7;
+			--cor3: #FFCB05;
+			--cor4: #F0F0F0;
+		}
+		body {
+			background-color: var(--cor4);
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			text-align: center;
+		}		
+		header{
+			background-color: var(--cor1);
+			color: var(--cor4);
+			padding: 30px 10px;
+			margin-bottom: 20px;
+			border-bottom: 5px solid #b12000;
+		}
+		section {
+			padding: 20px;
+			max-width: 800px;
+			margin: 0 auto;
+			outline: none;
+		}
+		input {
+			padding: 8px 15px;
+			border-radius: 20px;
+			border: 2px solid #ccc;
+		}
+		button {
+			padding: 10px 20px;
+			border-radius: 20px;
+			border: none;
+			cursor: pointer;
+			transition: 0.3s;
+			margin: 5px;
+		}
+		#pronto{
+			background-color: var(--cor2);
+			color: white;
+		}
+		#sortear{
+			background-color: var(--cor3);
+			font-weight: bold;
+		}
+		button:hover {
+			opacity: 0.8;
+		}
+		#resposta {
+			margin-top: 30px;
+		}
+		#resposta a {
+			display: inline-block;
+			padding: 12px 20px;
+			margin: 10px;
+			background-color: white;
+			color: var(--cor2);
+			text-decoration: none;
+			border-radius: 10px;
+			border: 2px solid var(--cor2);
+			font-weight: bold;
+			transition: 0.3s;
+		}
+		#resposta a:hover{
+			color: white;
+			background-color: var(--cor2);
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Pokedex funcional</h1>
+		<p>Já teve a vontade de descobrir todos os pokemon a um clique de distância? Então agora você pode!</p>
+	</header>
+	<main>	
+		<section>
+			<h1>Descubra como:</h1>
+			<p>O sistema funcionará da seguinte forma: <br> 1° - Você digitará um número aleatório, que vá de 1 à x <br> 2° - Um link surgirá e ao clicar nele 			você será levado para o site da pokedex correspondente ao seu número <br> 3° - Há uma forma também de randomizar o número, para que o novo pokemon 			seja uma surpresa. <br> E aí? Bora testar?</p>
+		</section>
+		<section>
+			<h2>Vamos lá! Aperte o botão abaixo: </h2>
+			<form method="get">
+				<label for="numero">Digite um número: </label>
+				<input type="number" id="numero">
+				<button type="submit" onclick="pok(event)" id="pronto">Pronto</button>
+				<button type="button" onclick="sortearPok()" id="sortear">Sortear!</button>
+			</form>
+			<div id="resposta">	
+				
+			</div>
+		</section>
+	</main>
+</body>
+<script>
+	function pok(e){
+		e.preventDefault()
+		var input = document.querySelector("#numero")
+		var valor = input.value
+		if(valor == "" || valor <= 0) {
+			document.querySelector("#resposta").innerHTML = 'Ocorreu um erro ao digitar este número. Verifique-se: é um número; é menor que 0; está vazio'
+		}else {
+			let numero = valor.toString()
+			let formatado = numero.padStart(4, "0")
+			let linkCompleto = "https://www.pokemon.com/br/pokedex/" + formatado
+			let linkSite = "detalhes.html?id=" + parseInt(valor)
+			document.querySelector("#resposta").innerHTML = `<p><a href="${linkCompleto}" target="_blank">Quem é esse pokemon?</a></p><p><a href="${linkSite}">			Quer ver o pokemon mais de perto?</a></p>` /*Inserir o link: https://www.pokemon.com/br/pokedex/*/
+			input.value = ""
+			input.focus()
+		}
+	}
+	function sortearPok() {
+		document.querySelector("#numero").value = ""
+		var valor = Math.floor(Math.random()*1025)+1
+		let numero = valor.toString()
+		let formatado = numero.padStart(4, "0")
+		let linkCompleto = "https://www.pokemon.com/br/pokedex/" + formatado
+		let linkSite = "detalhes.html?id=" + parseInt(valor)
+		document.querySelector("#resposta").innerHTML = `<p><a href="${linkCompleto}" target="_blank">Quem é esse pokemon?</a></p><p><a href="${linkSite}">
+		Quer ver o pokemon mais de perto?</a></p>`
+	}
+</script>
