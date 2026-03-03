@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="Width=device-width, initial-scale=1.0">
+	<title>Linguagem C</title>
+<style>
+	* {
+		margin: 0px;
+		padding: 0px;
+	}
+	body {
+		margin: 0;
+		min-height: 100vh;
+	}
+	h1, h2, h3, h4, p , ul{
+		font-family: Arial, Helvetica, sans-serif;
+		margin-top: 10px;
+	}
+	p {
+		margin: 0px 5px 0px 5px;
+		text-indent: 10px;
+	}
+	li {
+		margin: 0px 0px 5px 25px;
+	}
+	h4 {
+		background-color: #1A252F;
+		padding: 10px;
+		border-radius: 10px 10px 0px 0px;
+	}
+	abbr[title] {
+  		border-bottom: 1px dotted #333;
+ 		cursor: help;
+		transition: 1.1s;
+	}
+	.console abbr[title] {
+		border-bottom: 1px dotted #444;
+	}	
+	abbr:hover  {
+	    color: #e74c3c;
+	}
+	header > h1 {
+		margin-bottom: 10px;
+	}
+	header > p {
+		text-indent: 0px;
+	}
+	.bloco {
+		background-color: lightgray;
+		margin: 25px;
+		padding: 10px;
+		border-radius: 10px;
+		text-align: justify;
+		box-shadow: 10px 10px 7px 0px rgba(0, 0, 0, 0.5);
+		transition: transform .5 ease-in-out;
+	}
+	.bloco:hover {
+		transform: translate(-1.5px, -1.5px);
+	}	
+	.bloco > h3 {
+		font-size: 1.5em;
+	}
+	.inicio {
+		position: relative;
+		display: block;
+		background-image: linear-gradient(to bottom, #242C50, #242C33);
+		color: white;
+		border-radius: 0px;
+		margin: 0px;
+		box-shadow: 0px 7px 10px 0px rgba(0, 0, 0, 0.5);
+	}
+	.inicio:hover {
+		transform: translate(0px, 0px);
+	}
+	.inicio img {
+		position: absolute;
+		right: 0;
+		max-width: 50px;
+		margin-right: 10px;
+	}
+	.inicio p {
+		margin-bottom: 10px;
+	}
+	div.console{
+		background-color: #2C3E50;
+		color: #ECF0F1;
+		text-align: left;
+		border-radius: 10px;
+		margin-bottom: 10px;
+	}
+	.console > code > p{
+		font-family: 'Courier New', Courier, monospace;
+	}
+	code p {
+		margin: 0px;
+		padding: 10px;
+		text-indent: 0px;
+	}
+	code span {
+		padding-left: 20px;
+	}
+	.container-iframe {
+		display: flex;
+		width: 75%;
+		height: 500px;
+		overflow: hidden;
+ 		position: relative;
+ 		border: 5px solid rgba(0,0,0, 0.5);
+		display: block;
+ 		margin: 10px auto;
+  	}
+	.ava {
+		margin: auto;
+		max-width: 50%;
+		margin-bottom: 25px;
+	}
+	form {
+		background-color: whitesmoke;
+		border: 2px solid black;
+		width: 207.5px;
+		height: 100px;
+		margin: 20px auto 20px auto;
+		padding: 10px;
+		border-radius: 10px;
+	}
+	.star-rating {/*seleciona a <div> que contém as estrelas.*/
+    		display: flex;
+    		flex-direction: row-reverse;
+    		font-size: 50px;
+    		justify-content: flex-end;
+  	}
+  	.star-rating input {/*Para não mostrar o input*/
+    		display: none;
+  	}
+  	.star-rating label {
+    		color: #ccc;
+    		cursor: pointer;
+  	}
+  	.star-rating input:checked ~ label,
+  	.star-rating label:hover,
+  	.star-rating label:hover ~ label {
+   		color: #f90; /* Cor da estrela marcada/hover */
+  	}
+	form > button {
+		width: 150px;
+		background-color: blue;
+		cursor: pointer;
+		color: white;
+		padding: 5px;
+		margin-left: 30px;
+		border-radius: 10px;
+		transition: 0.5;
+	}
+	form > button:hover {
+		background-color: lightblue;
+		color: black;
+	}
+	@media screen and (max-width: 768px) {
+		h1#relativo {
+			font-size: 1.8em;
+		}
+	}
+</style>
+</head>
+<body>
+	<div class="bloco inicio">
+		<img src="https://lh6.googleusercontent.com/proxy/aFelwGbPlotVVa-LjaVPG7QaMTtsZV8bK0VQvtQVhs-gYAAmP7Ks6EEriouNbzGKkIB2jydb0tj7NOzTLUOyyHLtKdkoQ5WHJ5UjjTcgSKm3-IRQ1xX0fQ">
+		<header>
+			<h1 id="relativo">Funções da linguagem C</h1>
+			<p>Abaixo serão listadas as funções junto de uma explicação breve do que ela faz.</p>
+		</header>
+	</div>
+	<main>
+		<section class="bloco" style="margin-top: 20px;">
+			<h3>Printf()</h3>
+			<p>Quando iniciamos os estudos na linguagem C, é comum nós depararmos com a função printf(), pois ela é a função que fará
+			uma mensagem ser exibida no console.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p><abbr title="Print Formatted">printf</abbr>(<abbr title="Mensagem comum para ser utilizada no primeiro código, dizem que dá azar se não utilizar">"Hello world!"</abbr>);</p>
+				</code>
+			</div>
+		</section>
+		<section class="bloco">
+			<h3>Scanf()</h3>
+			<p>A função scanf() é uma função utilizada para "escanear" o que o usuário digitar, armazenando-o em uma variável.
+			Porém, para que possa guardar o que foi escrito é necessário alguns <abbr title="Parâmetros são valores, variáveis ou normas que definem, limitam ou caracterizam um sistema, modelo, equação ou conjunto de dados.">parâmetros</abbr> para que funcione, como: <abbr title="Armazenar valores inteiros">"%d"</abbr>, <abbr title="Armazenar valores reais">"%f"</abbr>, <abbr title="Armazenar um caractere">"%c"</abbr>, e <abbr title="Armazenar um conjunto de caracteres">"%s"</abbr>. Além de que, é necessário indicar qual é a variável, sendo necessário colocar um '&' antes dela.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p><abbr title="Scan Formatted">scanf</abbr>(<abbr title="Especificador de inteiro (decimal)">"%d"</abbr>, <abbr title="Variável">&var</abbr>);</p>
+				</code>
+			</div>
+		</section>
+		<section class="bloco">
+			<h3>If-else()</h3>
+			<p>Agora o if-else, ele se trata de uma função que tomará decisões baseadas em condições, por exemplo, se um número for 			maior que outro numero o sistema tomará certa ação. E existem diversos tipos de operadores lógicos, como: <abbr title="Representada pelo sinal >">maior</abbr>, <abbr title="Representado pelo sinal <">menor</abbr>, <abbr title="Representada pelo sinal >=">maior ou igual</abbr>, e <abbr title="Representada pelo sinal <=">menor ou igual</abbr>. Além de existir operadores booleanos, que permitem mais condições, como por exemplo, joão tem 18 anos <strong>e</strong> mora em maringá, logo ele pode beber em algum local na cidade. Mas, também pode ser utilizado o ou, por exemplo, para validarmos o sexo, onde deve ser digitado M(masculino) <strong>ou</strong> F(feminino), e se for digitado algo diferente, ele deve digitar novamente até que seja um dos dois.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p>
+						if(a > b) { <br>
+							<span>printf("Sim, a variável A é maior que a B!");</span><br>
+						} else { <br>
+							<span>printf("Não, a variável A não é maior que a B!");</span><br>
+						}
+					</p>
+				</code>
+			</div>
+		</section>
+		<section class="bloco">
+			<h3>While()</h3>
+			<p>A função while() é uma estrutura de repetição. Ela irá executar um bloco de código enquanto uma condição for verdadeira. Ou seja, enquanto a condição for atendida, o código continuará rodando.
+
+Ela é muito utilizada quando não sabemos exatamente quantas vezes o código deverá repetir.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p>
+						int contador = 0;<br>
+						<br>
+						while(contador < 5) {<br>		
+   					 		<span>printf("O contador está em: %d\n", contador);</span><br>
+    							<span>contador<abbr title="Operador de incremento">++</abbr>;</span><br>
+						}
+					</p>
+				</code>
+			</div>
+			<p>No exemplo acima, o código será executado enquanto contador for menor que 5.</p>
+		</section>
+		<section class="bloco">
+			<h3>For()</h3>
+			<p>A função for() também é uma estrutura de repetição, porém ela é mais utilizada quando já sabemos quantas vezes queremos que o código seja 				executado.<br> Ela possui três partes:
+				<ul>
+					<li>Inicialização</li>
+					<li>Condição</li>
+					<li>Incremento</li>
+				<ul>
+			</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p>
+						for(int i = 0; i < 5; i++) {<br>
+   					 		<span>printf("Valor de i: %d<abbr title="Quebra de linha (new line)">\n</abbr>", i);</span><br>
+						}
+					</p>
+				</code>
+			</div>
+			<p>Nesse caso, o código será executado 5 vezes.</p>
+		</section>
+		<section class="bloco">
+			<h3>Do-While()</h3>
+			<p>O do-while() é muito parecido com o while(), porém existe uma diferença importante: ele executa pelo menos uma vez, mesmo que a condição seja falsa.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p>
+						int numero;<br>
+						<br>
+						do {<br>
+   							<span>printf("Digite um número maior que 10: ");</span><br>
+    							<span>scanf("%d", &numero);</span><br>
+						} while(numero <= 10);
+					</p>
+				</code>
+			</div>
+			<p>Aqui, o usuário será obrigado a digitar até que informe um número maior que 10.</p>
+		</section>
+
+		<section class="bloco">
+			<h3>Switch()</h3>
+			<p>O switch() é uma estrutura de seleção utilizada quando queremos comparar o valor de uma variável com múltiplas opções. Ele torna o código mais organizado quando temos várias condições baseadas no mesmo valor.</p>
+			<div class="console">
+				<h4>Console</h4>
+				<code>
+					<p>
+						int opcao;<br>
+						<br>
+						printf("Escolha uma opção (1-3): ");<br>
+						scanf("%d", &opcao);<br>
+						<br>
+						switch(opcao) {<br>
+    							<span><abbr title="Caso dentro da estrutura switch">case</abbr> 1:</span><br>
+        							<span><span>printf("Você escolheu a opção 1.");</span></span><br>
+        							<span><span><abbr title="Interrompe a execução do bloco atual">break</abbr>;</span></span><br>
+    							<span>case 2:</span><br>
+        							<span><span>printf("Você escolheu a opção 2.");</span></span><br>
+        							<span><span>break;</span></span><br>
+    							<span>case 3:</span><br>
+        							<span><span>printf("Você escolheu a opção 3.");</span></span><br>
+        							<span><span>break;</span></span><br>
+    							<span>default:</span><br>
+        							<span><span>printf("Opção inválida.");</span></span><br>
+						}<br>
+					</p>
+				</code>
+			</div>
+			<p>Nesse exemplo, o programa executa um bloco específico de código dependendo do valor digitado pelo usuário. O <strong>break</strong> é utilizado para impedir que os próximos casos sejam executados.</p>
+		</section>
+		<hr>
+		<div class="bloco">
+			<h2>Que tal praticar?</h2>
+			<iframe class="container-iframe" src="https://www.programiz.com/online-compiler/2RcQBjqcOCcvX" width="100%" height="400px" frameborder="0" 				sandbox="allow-scripts allow-forms allow-same-origin allow-popups" referrerpolicy="no-referrer">
+		</iframe>
+		</div>
+		<div class="bloco ava">
+			<h2 style="text-align: center;">Quer deixar uma avaliação?</h2>
+			<form>
+  				<div class="star-rating">
+    					<input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+   					<input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+    					<input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+    					<input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+    					<input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+ 				 </div>
+  				<button type="submit">Enviar Avaliação</button>
+			</form>
+		</div>
+	</main>
+</body>
