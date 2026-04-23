@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bongas - Copas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Grupos e Fatos</h1>
+</header>
+
+<div id="containerA" class="cartao-grupo">
+    <h2 id="tituloA">🅰️ Grupo A</h2>
+    <h3>Seleções</h3>
+    <ul id="listaA">
+        <li>México</li>
+        <li>África do Sul</li>
+        <li>Coreia do Sul</li>
+        <li>República Tcheca</li>
+    </ul>
+    <details id="detalheA">
+        <summary>Saiba Mais</summary>
+        <p id="fatoA">Fatos: O jogo de abertura será México x África do Sul. Confrontos entre Coreia do Sul e seleções europeias já ocorreram em várias Copas, com histórico equilibrado.</p>
+    </details>
+</div>
+
+<div id="containerB" class="cartao-grupo">
+    <h2 id="tituloB">🅱️ Grupo B</h2>
+    <h3>Seleções</h3>
+    <ul id="listaB">
+        <li>Canadá</li>
+        <li>Suíça</li>
+        <li>Catar</li>
+        <li>Vaga Europeia (Bósnia)</li>
+    </ul>
+    <details id="detalheB">
+        <summary>Saiba Mais</summary>
+        <p id="fatoB">Fatos: O Canadá joga em casa, fator importante de desempenho. Catar e Suíça já se enfrentaram recentemente em amistosos internacionais.</p>
+    </details>
+</div>
+
+<div id="containerC" class="cartao-grupo">
+    <h2 id="tituloC">🅲 Grupo C</h2>
+    <h3>Seleções</h3>
+    <ul id="listaC">
+        <li>Brasil</li>
+        <li>Marrocos</li>
+        <li>Haiti</li>
+        <li>Escócia</li>
+    </ul>
+    <details id="detalheC">
+        <summary>Saiba Mais</summary>
+        <p id="fatoC">Fatos: Brasil, Marrocos e Escócia já dividiram grupo em 1998. Brasil nunca perdeu para a Escócia em Copas.</p>
+    </details>
+</div>
+
+<button onclick="faz()">Próximo</button>
+
+<script>
+function faz() {
+    document.getElementById("tituloA").innerText = "Grupo 🅳";
+    document.getElementById("tituloB").innerText = "Grupo 🅴";
+    document.getElementById("tituloC").innerText = "Grupo 🅵";
+
+    document.getElementById("listaA").innerHTML = `<li>Estados Unidos</li><li>Paraguai</li><li>Austrália</li><li>Turquia</li>`;
+    document.getElementById("listaB").innerHTML = `<li>Alemanha</li><li>Equador</li><li>Costa do Marfim</li><li>Curaçao</li>`;
+    document.getElementById("listaC").innerHTML = `<li>Holanda</li><li>Japão</li><li>Tunísia</li><li>Suécia</li>`;
+
+    document.getElementById("fatoA").innerText = "Fatos: Os EUA jogam em casa, vantagem histórica em Copas. Austrália enfrenta frequentemente seleções sul-americanas.";
+    document.getElementById("fatoB").innerText = "Fatos: Alemanha costuma dominar fases de grupos. Equador e Costa do Marfim têm estilos físicos semelhantes.";
+    document.getElementById("fatoC").innerText = "Fatos: Brasil, Marrocos e Escócia já dividiram grupo em 1998. Brasil nunca perdeu para a Escócia em Copas.";
+}
+</script>
+
+</body>
+</html>
