@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversor de Temperatura</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cold: #5bc4f5;
+    --hot: #ff6b35;
+    --bg: #0d0d0d;
+    --card: #161616;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #666;
+  }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,196,245,0.06) 0%, transparent 70%);
+    top: -200px; left: -200px;
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%);
+    bottom: -150px; right: -150px;
+    pointer-events: none;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cold), var(--hot));
+  }
+
+  .label-top {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 span.cold { color: var(--cold); }
+  h1 span.hot  { color: var(--hot); }
+
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .field label.lbl-c { color: var(--cold); }
+  .field label.lbl-f { color: var(--hot); }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    background: #1e1e1e;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 3.5rem 1rem 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+
+  .input-wrap input::-webkit-outer-spin-button,
+  .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  #celsius:focus { border-color: var(--cold); box-shadow: 0 0 0 3px rgba(91,196,245,0.12); }
+  #fahrenheit:focus { border-color: var(--hot); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+
+  .unit {
+    position: absolute;
+    right: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  .unit-c { color: var(--cold); }
+  .unit-f { color: var(--hot); }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .info-bar {
+    margin-top: 2rem;
+    padding: 1rem 1.2rem;
+    background: #1a1a1a;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .info-bar span { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <p class="label-top">exercício 02</p>
+  <h1><span class="cold">TEMP</span><span class="hot">.</span></h1>
+  <p class="subtitle">conversor bidirecional em tempo real</p>
+
+  <div class="fields">
+    <div class="field">
+      <label class="lbl-c" for="celsius">Celsius</label>
+      <div class="input-wrap">
+        <input type="number" id="celsius" step="0.1" placeholder="0.00">
+        <span class="unit unit-c">°C</span>
+      </div>
+    </div>
+
+    <div class="divider">⇅</div>
+
+    <div class="field">
+      <label class="lbl-f" for="fahrenheit">Fahrenheit</label>
+      <div class="input-wrap">
+        <input type="number" id="fahrenheit" step="0.1" placeholder="32.00">
+        <span class="unit unit-f">°F</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-bar">
+    F → C: <span>(F − 32) × 5/9</span><br>
+    C → F: <span>(C × 9/5) + 32</span>
+  </div>
+</div>
+
+<script>
+  const c = document.getElementById('celsius');
+  const f = document.getElementById('fahrenheit');
+
+  c.addEventListener('input', () => {
+    if (c.value === '') { f.value = ''; return; }
+    f.value = ((parseFloat(c.value) * 9/5) + 32).toFixed(2);
+  });
+
+  f.addEventListener('input', () => {
+    if (f.value === '') { c.value = ''; return; }
+    c.value = ((parseFloat(f.value) - 32) * 5/9).toFixed(2);
+  });
+</script>
+</body>
+</html>

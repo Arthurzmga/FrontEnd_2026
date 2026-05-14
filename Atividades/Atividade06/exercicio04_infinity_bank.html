@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #050a14;
+    --card: #0c1524;
+    --card2: #0f1c30;
+    --border: #1a2d47;
+    --accent: #00d4ff;
+    --accent2: #7b5cff;
+    --text: #e8f0fe;
+    --muted: #4a6080;
+    --green: #00e5a0;
+    --gold: #ffc940;
+  }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(0,212,255,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(123,92,255,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .bank-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .bank-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  h1 .inf { color: var(--accent); }
+  h1 .bank { color: var(--text); }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .field:last-child { margin-bottom: 0; }
+
+  .field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #7a9bbf;
+    letter-spacing: 0.04em;
+  }
+
+  .field select,
+  .field input {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -moz-appearance: textfield;
+  }
+
+  .field input::-webkit-outer-spin-button,
+  .field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .field select:focus,
+  .field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+  }
+
+  .field select option { background: #0c1524; }
+
+  .input-prefix {
+    position: relative;
+  }
+
+  .input-prefix input {
+    padding-left: 2.2rem;
+  }
+
+  .input-prefix::before {
+    content: 'R$';
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-bottom: 1rem;
+  }
+
+  button:hover { opacity: 0.88; }
+  button:active { transform: scale(0.98); }
+
+  #resultado {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    animation: slideUp 0.35s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .res-header {
+    background: linear-gradient(135deg, rgba(0,212,255,0.12), rgba(123,92,255,0.12));
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .res-header-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .res-bandeira {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .res-items {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .res-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .res-item-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .res-item-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .res-item-value.highlight { color: var(--green); }
+  .res-item-value.warn { color: var(--gold); }
+
+  .res-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.25rem 0;
+  }
+
+  .res-total {
+    padding: 1.2rem 1.5rem;
+    background: rgba(0,229,160,0.06);
+    border-top: 1px solid rgba(0,229,160,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .res-total-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .res-total-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .res-parcela {
+    padding: 0.9rem 1.5rem;
+    background: rgba(123,92,255,0.07);
+    border-top: 1px solid rgba(123,92,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .res-parcela-label {
+    font-size: 0.8rem;
+    color: #a08fff;
+    font-weight: 600;
+  }
+
+  .res-parcela-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #a08fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="bank-tag">simulador ativo</div>
+    <h1><span class="inf">INFINITY</span><br><span class="bank">BANK</span></h1>
+    <p class="tagline">// simulador de vendas & taxas</p>
+  </div>
+
+  <div class="card">
+    <p class="section-label">01 — dados da transação</p>
+
+    <div class="field">
+      <label>Bandeira do Cartão</label>
+      <select id="bandeira">
+        <option value="">Selecione a bandeira</option>
+        <option value="visa">Visa — 2.00%</option>
+        <option value="master">Mastercard — 1.85%</option>
+        <option value="elo">Elo — 3.00%</option>
+      </select>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Valor da Venda</label>
+        <div class="input-prefix">
+          <input type="number" id="valor" step="0.01" min="0" placeholder="0.00">
+        </div>
+      </div>
+      <div class="field">
+        <label>Parcelas</label>
+        <select id="parcelas">
+          <option value="1">1x sem juros</option>
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+          <option value="4">4x</option>
+          <option value="6">6x</option>
+          <option value="12">12x</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button id="btn">▶ Calcular Simulação</button>
+
+  <div id="resultado">
+    <div class="res-header">
+      <span class="res-header-label">resumo da operação</span>
+      <span class="res-bandeira" id="res-bandeira-label"></span>
+    </div>
+    <div class="res-items">
+      <div class="res-item">
+        <span class="res-item-label">Valor da Venda</span>
+        <span class="res-item-value" id="r-venda"></span>
+      </div>
+      <div class="res-item">
+        <span class="res-item-label">Taxa da Bandeira</span>
+        <span class="res-item-value warn" id="r-taxa"></span>
+      </div>
+      <div class="res-item">
+        <span class="res-item-label">Juros do Parcelamento</span>
+        <span class="res-item-value warn" id="r-juros"></span>
+      </div>
+      <div class="res-item">
+        <span class="res-item-label">Taxa Mensal (R$ 12,50/mês)</span>
+        <span class="res-item-value warn" id="r-mensal"></span>
+      </div>
+    </div>
+    <div class="res-total">
+      <span class="res-total-label">Valor Total</span>
+      <span class="res-total-value" id="r-total"></span>
+    </div>
+    <div class="res-parcela">
+      <span class="res-parcela-label" id="r-parcela-label"></span>
+      <span class="res-parcela-value" id="r-parcela"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const fmt = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+
+  document.getElementById('btn').addEventListener('click', () => {
+    const bandeira  = document.getElementById('bandeira').value;
+    const valor     = parseFloat(document.getElementById('valor').value);
+    const parcelas  = parseInt(document.getElementById('parcelas').value);
+
+    if (!bandeira || isNaN(valor) || valor <= 0) {
+      alert('Preencha todos os campos corretamente.');
+      return;
+    }
+
+    let taxaPerc = 0;
+    let bandLabel = '';
+
+    switch (bandeira) {
+      case 'visa':   taxaPerc = 0.02;   bandLabel = 'VISA 2.00%';   break;
+      case 'master': taxaPerc = 0.0185; bandLabel = 'MASTER 1.85%'; break;
+      case 'elo':    taxaPerc = 0.03;   bandLabel = 'ELO 3.00%';    break;
+    }
+
+    const taxaBandeira = valor * taxaPerc;
+    const jurosTotais  = valor * (0.015 * parcelas);
+    const taxaMensal   = 12.50 * parcelas;
+    const total        = valor + taxaBandeira + jurosTotais + taxaMensal;
+    const parcela      = total / parcelas;
+
+    document.getElementById('res-bandeira-label').textContent = bandLabel;
+    document.getElementById('r-venda').textContent  = fmt(valor);
+    document.getElementById('r-taxa').textContent   = fmt(taxaBandeira);
+    document.getElementById('r-juros').textContent  = fmt(jurosTotais);
+    document.getElementById('r-mensal').textContent = fmt(taxaMensal);
+    document.getElementById('r-total').textContent  = fmt(total);
+    document.getElementById('r-parcela-label').textContent = `${parcelas}x de`;
+    document.getElementById('r-parcela').textContent = fmt(parcela);
+
+    document.getElementById('resultado').style.display = 'block';
+  });
+</script>
+</body>
+</html>

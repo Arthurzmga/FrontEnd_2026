@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validador de CPF</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0ede8;
+    --card: #ffffff;
+    --border: #d6d2cb;
+    --text: #1a1814;
+    --muted: #9e9a94;
+    --valid: #1a7a3c;
+    --valid-bg: #e6f4ec;
+    --valid-border: #a3d4b5;
+    --invalid: #b02020;
+    --invalid-bg: #fceaea;
+    --invalid-border: #e8a8a8;
+    --accent: #1a1814;
+  }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    background-image: radial-gradient(#c8c4be 1px, transparent 1px);
+    background-size: 20px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2.25rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  h1 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .field input {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .field input:focus {
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(26,24,20,0.08);
+  }
+
+  .field input::placeholder {
+    color: #c0bbb4;
+    letter-spacing: 0.05em;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  button:hover  { opacity: 0.82; }
+  button:active { transform: scale(0.98); }
+
+  #resultado {
+    display: none;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    border: 1.5px solid;
+    animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  #resultado.valido {
+    background: var(--valid-bg);
+    border-color: var(--valid-border);
+  }
+
+  #resultado.invalido {
+    background: var(--invalid-bg);
+    border-color: var(--invalid-border);
+  }
+
+  .res-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .res-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  #resultado.valido   .res-title { color: var(--valid); }
+  #resultado.invalido .res-title { color: var(--invalid); }
+
+  .res-cpf {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    opacity: 0.65;
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <p class="eyebrow">verificação de documento</p>
+
+  <div class="card">
+    <h1>Validador<br>de CPF</h1>
+    <p class="subtitle">Insira os 11 dígitos sem pontos ou traços</p>
+
+    <div class="field">
+      <label for="cpf">Número do CPF</label>
+      <div class="input-wrap">
+        <input type="text" id="cpf" maxlength="11" placeholder="00000000000" autocomplete="off">
+      </div>
+    </div>
+
+    <button onclick="validador()">Validar CPF</button>
+  </div>
+
+  <div id="resultado">
+    <div class="res-icon" id="res-icon"></div>
+    <div class="res-title" id="res-title"></div>
+    <div class="res-cpf"  id="res-cpf"></div>
+  </div>
+</div>
+
+<script>
+  function validador() {
+    const cpf = document.getElementById('cpf').value.trim();
+    const res = document.getElementById('resultado');
+
+    if (cpf === '' || cpf.length !== 11 || isNaN(cpf)) {
+      alert('Digite exatamente 11 dígitos numéricos, sem pontos ou traços.');
+      return;
+    }
+
+    var tot1 = 0;
+    for (var i = 0; i < 9; i++) {
+      tot1 += (10 - i) * Number(cpf.charAt(i));
+    }
+    tot1 = (tot1 * 10) % 11;
+    if (tot1 === 10) tot1 = 0;
+
+    var tot2 = 0;
+    for (var i = 0; i < 10; i++) {
+      tot2 += (11 - i) * Number(cpf.charAt(i));
+    }
+    tot2 = (tot2 * 10) % 11;
+    if (tot2 === 10) tot2 = 0;
+
+    const cpfFmt = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+
+    res.style.display = 'block';
+
+    if (tot1 == cpf.charAt(9) && tot2 == cpf.charAt(10)) {
+      res.className = 'valido';
+      document.getElementById('res-icon').textContent  = '✓';
+      document.getElementById('res-title').textContent = 'CPF Válido';
+      document.getElementById('res-cpf').textContent   = cpfFmt;
+    } else {
+      res.className = 'invalido';
+      document.getElementById('res-icon').textContent  = '✗';
+      document.getElementById('res-title').textContent = 'CPF Inválido';
+      document.getElementById('res-cpf').textContent   = cpfFmt;
+    }
+  }
+
+  document.getElementById('cpf').addEventListener('keydown', e => {
+    if (e.key === 'Enter') validador();
+  });
+</script>
+</body>
+</html>

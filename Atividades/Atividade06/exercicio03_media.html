@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Média Escolar</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ee;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #888;
+    --border: #e0ddd6;
+    --approved: #1d6fa4;
+    --exam: #2d9e5f;
+    --failed: #c0392b;
+    --accent: #1a1a1a;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-image: radial-gradient(#ccc9c0 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+  }
+
+  .eyebrow {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .field label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 0.05em;
+  }
+
+  .field input {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .field input:focus {
+    border-color: var(--accent);
+    background: #fff;
+  }
+
+  .notas-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .notas-row .field { margin-bottom: 0; }
+
+  .notas-row input {
+    text-align: center;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+  }
+
+  button:hover { opacity: 0.85; }
+  button:active { transform: scale(0.98); }
+
+  #resultado {
+    display: none;
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    border: 1.5px solid;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  #resultado.aprovado  { background: #e8f4fd; border-color: #aad4ee; color: var(--approved); }
+  #resultado.exame     { background: #e8f7ef; border-color: #a5ddc0; color: var(--exam); }
+  #resultado.reprovado { background: #fdecea; border-color: #f0b8b4; color: var(--failed); }
+
+  .res-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 0.3rem;
+    font-family: 'Fira Code', monospace;
+  }
+
+  .res-media {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-family: 'Fira Code', monospace;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .res-status {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .res-obs {
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    opacity: 0.75;
+    font-family: 'Fira Code', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <p class="eyebrow">exercício 03</p>
+  <h1>Média Escolar</h1>
+  <p class="subtitle">Informe o nome e as três notas para calcular a situação</p>
+
+  <div class="field">
+    <label for="nome">Nome do Aluno</label>
+    <input type="text" id="nome" placeholder="Ex.: Maria Silva">
+  </div>
+
+  <div class="notas-row">
+    <div class="field">
+      <label for="n1">Nota 1</label>
+      <input type="number" id="n1" min="0" max="10" step="0.1" placeholder="0.0">
+    </div>
+    <div class="field">
+      <label for="n2">Nota 2</label>
+      <input type="number" id="n2" min="0" max="10" step="0.1" placeholder="0.0">
+    </div>
+    <div class="field">
+      <label for="n3">Nota 3</label>
+      <input type="number" id="n3" min="0" max="10" step="0.1" placeholder="0.0">
+    </div>
+  </div>
+
+  <button id="btn">Calcular Média</button>
+
+  <div id="resultado">
+    <p class="res-name" id="res-name"></p>
+    <p class="res-media" id="res-media"></p>
+    <p class="res-status" id="res-status"></p>
+    <p class="res-obs" id="res-obs"></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('btn').addEventListener('click', () => {
+    const nome = document.getElementById('nome').value.trim() || 'Aluno';
+    const n1 = Number(document.getElementById('n1').value);
+    const n2 = Number(document.getElementById('n2').value);
+    const n3 = Number(document.getElementById('n3').value);
+
+    const media = (n1 + n2 + n3) / 3;
+    const res = document.getElementById('resultado');
+
+    document.getElementById('res-name').textContent = nome;
+    document.getElementById('res-media').textContent = media.toFixed(2);
+
+    res.className = '';
+    res.style.display = 'block';
+
+    if (media >= 7.0) {
+      res.classList.add('aprovado');
+      document.getElementById('res-status').textContent = '✓ Aprovado';
+      document.getElementById('res-obs').textContent = 'Parabéns! Média atingida com sucesso.';
+    } else if (media >= 4.0) {
+      const falta = (10 - media).toFixed(2);
+      res.classList.add('exame');
+      document.getElementById('res-status').textContent = '⚠ Exame Final';
+      document.getElementById('res-obs').textContent = `Faltam ${falta} pontos para a média 10.`;
+    } else {
+      res.classList.add('reprovado');
+      document.getElementById('res-status').textContent = '✗ Reprovado';
+      document.getElementById('res-obs').textContent = 'Média abaixo de 4.0. Necessário recuperação.';
+    }
+  });
+</script>
+</body>
+</html>
